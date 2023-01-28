@@ -1,0 +1,19 @@
+.imageContainer {
+    height: 80vh;
+    width: 60vw;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+}
+
+.video {
+    object-fit: contain;
+    width: inherit;
+    height: inherit;
+    top: 0;
+    left: 0;
+    background-color: transparent;
+    background: transparent;
+  }

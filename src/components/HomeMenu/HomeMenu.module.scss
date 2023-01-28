@@ -1,0 +1,13 @@
+.menuItem {
+    color: white;
+    white-space: nowrap;
+    position: relative;
+    transform-origin: center;
+    padding: 5px;
+    font-size: 1.15em;
+    z-index: 1;
+}
+
+.menuContainer {
+    width: fit-content;
+}
