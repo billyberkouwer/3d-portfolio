@@ -10,3 +10,9 @@
     justify-content: flex-end;
     align-items: center;
 }
+
+@media screen and (max-width: 768px) {
+    .contentContainer {
+        width: 100vw;
+    }
+}
