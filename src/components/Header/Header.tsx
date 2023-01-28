@@ -1,6 +1,6 @@
 import styles from './Header.module.scss'
 
-export default function Header(props) {
+export default function Header() {
     return ( 
         <header className={styles.scrollHeader}>
             <h1>
@@ -9,6 +9,5 @@ export default function Header(props) {
                 3D Experiments by Billy Myles-Berkouwer
             </h1>
         </header>
-
     )
 }
