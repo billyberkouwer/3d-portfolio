@@ -43,7 +43,7 @@ if (image === null) {
             </div>
         }
         {isImageFile(image) &&
-            <Image src={image} style={{objectFit: 'contain'}} alt={'3D scene' + image} fill onLoad={() => setTimeout(() => setIsLoading(false), 2000)}/>
+            <Image src={image} style={{objectFit: 'contain'}} alt={'3D scene' + image} fill onLoad={() => setIsLoading(false)}/>
         }
         {!isImageFile(image) &&
             <Video image={image} setIsLoading={setIsLoading} />
