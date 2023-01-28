@@ -26,6 +26,7 @@ export default function ImageComponent({image}: Props) {
                 duration: 0.2,
             })
         }
+        setIsLoading(true);
     }, [image])
 
 if (image === null) {
@@ -36,9 +37,13 @@ if (image === null) {
 
   return (
     <div className={styles.imageContainer} ref={el => ref.current = el}>
-        {isLoading && <ReactLoading type={'spinningBubbles'} color={'#c2c2c2'} height={50} width={50} />}
+        {isLoading && 
+            <div style={{ position: 'absolute' }}>
+                <ReactLoading type={'spinningBubbles'} color={'#c2c2c2'} height={50} width={50}/>
+            </div>
+        }
         {isImageFile(image) &&
-            <Image src={image} style={{objectFit: 'contain'}} alt={'3D scene' + image} fill onLoad={() => setIsLoading(false)}/>
+            <Image src={image} style={{objectFit: 'contain'}} alt={'3D scene' + image} fill onLoad={() => setTimeout(() => setIsLoading(false), 2000)}/>
         }
         {!isImageFile(image) &&
             <Video image={image} setIsLoading={setIsLoading} />
