@@ -17,4 +17,16 @@
     background-color: transparent;
     background: transparent;
     position: absolute;
-  }
+}
+
+@media screen and (max-width: 768px) {
+    .imageContainer {
+        height: inherit;
+        width: inherit;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 1;
+    }
+}

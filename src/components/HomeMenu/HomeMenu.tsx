@@ -15,9 +15,9 @@ export default function HomeMenu({setImage}: Props) {
     if (isActive) {
       ref.current.forEach((el, i) => {
         if (i + 1 === isActive) {
-          gsap.fromTo(el, {left: 0}, {left: 50, duration: 0.4});
+          gsap.fromTo(el, {left: 0, opacity: 0.5}, {left: 50, duration: 0.4, opacity: 1});
         } else {
-          gsap.to(el, {left: 0, duration: 0.4});
+          gsap.to(el, {left: 0, duration: 0.4, opacity: 0.5});
         }
       })
     }
