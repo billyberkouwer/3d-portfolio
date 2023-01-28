@@ -1,0 +1,34 @@
+export default function Preloads() {
+    return (
+        <>
+        <link
+            rel="preload"
+            href="/fonts/Syne/Syne-Bold.woff"
+            as="font"
+            type="font/woff"
+            crossOrigin="anonymous"
+        />
+        <link
+            rel="preload"
+            href="/fonts/Playfair-Display/PlayfairDisplay-Italic.ttf"
+            as="font"
+            type="font/ttf"
+            crossOrigin="anonymous"
+        />
+        <link
+            rel="preload"
+            href="/fonts/Cormorant-garamond/CormorantGaramond-Regular.ttf"
+            as="font"
+            type="font/ttf"
+            crossOrigin="anonymous"
+        />
+        <link
+            rel="preload"
+            href="/fonts/Big-shoulders/BigShouldersText-Regular.ttf"
+            as="font"
+            type="font/ttf"
+            crossOrigin="anonymous"
+        />
+        </>
+    )
+}
