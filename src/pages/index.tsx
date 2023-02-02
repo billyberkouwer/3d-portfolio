@@ -13,11 +13,14 @@ export default function Home({width, height}: Props) {
   const [image, setImage] = useState<string | null>(null);
 
   async function fetchCockpit() {
-    const data = await fetch('http://localhost:8080/api/collections/get/New?token=e1db7ce1a87b0ec6291162e4fca107', {
-      method: 'GET'
+    const data = await fetch('https://17e622c9569e3fa85e0e3247f346ce6d-17523.sites.k-hosting.co.uk/cockpit-core/api/content/item/Images', {
+      method: 'GET',
+      headers: {
+        "api-key": "API-c1377005fdccca4d56cf6d42176dbb5fba698e7f"
+      }
     })
     .then(response => response.json())
-    return data;
+    .then(result => console.log(result))
   }
 
   async function fetchFromAPI() {
@@ -27,7 +30,8 @@ export default function Home({width, height}: Props) {
   }
 
   useEffect(() => {
-    fetchFromAPI();
+    // fetchFromAPI();
+    fetchCockpit();
   }, [image]);
   
   return (
