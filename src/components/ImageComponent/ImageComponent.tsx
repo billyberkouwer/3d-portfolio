@@ -2,7 +2,7 @@ import gsap from 'gsap';
 import Image from 'next/image'
 import React, { useState, useRef } from 'react'
 import { useEffect } from 'react';
-import styles from './ImageComponent.module.scss'
+import styles from './ImageComponent.module.scss';
 import ReactLoading from 'react-loading'
 import isImageFile from '@/helpers/isImageFile';
 import Video from '../Video/Video';
