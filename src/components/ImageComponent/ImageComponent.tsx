@@ -13,7 +13,7 @@ type Props = {
 
 export default function ImageComponent({image}: Props) {
     const ref = useRef<HTMLDivElement | null>();
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         if (ref.current) {
@@ -29,26 +29,25 @@ export default function ImageComponent({image}: Props) {
         setIsLoading(true);
     }, [image])
 
-if (image === null) {
-    return (
-        <></>
-    )
-}
-console.log(image)
+    if (image === null) {
+        return (
+            <></>
+        )
+    }
 
-  return (
-    <div className={styles.imageContainer} ref={el => ref.current = el}>
-        {isLoading && 
-            <div style={{ position: 'absolute' }}>
-                <ReactLoading type={'spinningBubbles'} color={'#c2c2c2'} height={50} width={50}/>
-            </div>
-        }
-        {isImageFile(image) &&
-            <Image src={image} style={{objectFit: 'contain'}} alt={'3D scene' + image} fill onLoad={() => setIsLoading(false)}/>
-        }
-        {!isImageFile(image) &&
-            <Video image={image} setIsLoading={setIsLoading} />
-        }
-    </div>
-  )
+    return (
+        <div className={styles.imageContainer} ref={el => ref.current = el}>
+            {isLoading && 
+                <div style={{ position: 'absolute' }}>
+                    <ReactLoading type={'spinningBubbles'} color={'#c2c2c2'} height={50} width={50}/>
+                </div>
+            }
+            {isImageFile(image) &&
+                <Image src={image} style={{objectFit: 'contain'}} alt={'3D scene' + image} fill onLoad={() => setIsLoading(false)}/>
+            }
+            {!isImageFile(image) &&
+                <Video image={image} setIsLoading={setIsLoading} />
+            }
+        </div>
+    )
 }
