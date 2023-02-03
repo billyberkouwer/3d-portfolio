@@ -5,14 +5,15 @@ import gsap from 'gsap';
 
 type Props = {
   setImage: Dispatch<SetStateAction<string | null>>,
+  content: any,
 }
 
-export default function HomeMenu({setImage}: Props) {
+export default function HomeMenu({setImage, content}: Props) {
   const [isActive, setIsActive] = useState<number | undefined>(undefined);
   const ref = useRef<Array<HTMLDivElement>>([])
 
   useEffect(() => {
-    if (isActive) {
+    if (isActive && content) {
       ref.current.forEach((el, i) => {
         if (i + 1 === isActive) {
           gsap.fromTo(el, {left: 0, opacity: 0.5}, {left: 50, duration: 0.4, opacity: 1});
@@ -21,18 +22,18 @@ export default function HomeMenu({setImage}: Props) {
         }
       })
     }
-  }, [isActive])
+    console.log(content)
+  }, [isActive, content])
 
   return (
     <div className={styles.menuContainer}>
-      {content.map((item, i) =>
-          <div ref={el => el !== null && ref.current.splice (i, 1, el)} key={'menu-item' + i} className={styles.menuItem} onMouseOver={() => {setImage(item.src); setIsActive(i + 1);}} onTouchStart={() => {setImage(item.src); setIsActive(i + 1);}}>
-            <h1>
-              {item.title}
-            </h1>
-          </div>
-        )
-      }
+      {(content as object[]).map((item, i) => (
+        <div ref={el => el !== null && ref.current.splice (i, 1, el)} key={'menu-item' + i} className={styles.menuItem} onMouseOver={() => {setImage(item['visual-content'].path); setIsActive(i + 1);}} onTouchStart={() => {setImage(item['visual-content'].path); setIsActive(i + 1);}}>
+          <h1>
+            {item['visual-content'].title}
+          </h1>
+        </div>
+      ))}
     </div>
   )
 }

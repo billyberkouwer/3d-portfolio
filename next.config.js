@@ -1,17 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  async headers() {
-    return [{
-      source: '/api/:path*',
-      headers: [
-            {
-              key: 'api-key',
-              value: "API-c1377005fdccca4d56cf6d42176dbb5fba698e7f",
-            }
-          ]
-        }
-      ]
+  images: {
+    domains: ['17e622c9569e3fa85e0e3247f346ce6d-17523.sites.k-hosting.co.uk'],
+  },
+  env: {
+    SITE_URL: process.env.SITE_URL,
+    API_URL: process.env.API_URL,
+    API_KEY: process.env.API_KEY,
   }
 }
 
