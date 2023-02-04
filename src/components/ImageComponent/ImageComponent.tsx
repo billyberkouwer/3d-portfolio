@@ -9,9 +9,11 @@ import Video from '../Video/Video';
 
 type Props = {
     image: string | null;
+    isVideo: boolean | null;
+    mime: string | undefined;
 }
 
-export default function ImageComponent({image}: Props) {
+export default function ImageComponent({image, isVideo, mime}: Props) {
     const ref = useRef<HTMLDivElement | null>();
     const [isLoading, setIsLoading] = useState(true);
 
@@ -42,11 +44,11 @@ export default function ImageComponent({image}: Props) {
                     <ReactLoading type={'spinningBubbles'} color={'#c2c2c2'} height={50} width={50}/>
                 </div>
             }
-            {isImageFile(image) &&
+            {!isVideo &&
                 <Image src={image} style={{objectFit: 'contain'}} alt={'3D scene' + image} fill onLoad={() => setIsLoading(false)}/>
             }
-            {!isImageFile(image) &&
-                <Video image={image} setIsLoading={setIsLoading} />
+            {isVideo &&
+                <Video image={image} mime={mime} setIsLoading={setIsLoading} />
             }
         </div>
     )
