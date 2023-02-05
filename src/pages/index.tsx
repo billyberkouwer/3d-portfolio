@@ -1,98 +1,75 @@
 import HomeMenu from "../components/HomeMenu/HomeMenu";
 import { useEffect, useRef, useState } from "react";
-import ImageComponent from "@/components/ImageComponent/ImageComponent";
+import AssetComponent from "@/components/ImageComponent/AssetComponent";
 import styles from "../styles/index.module.scss";
+import { visualAsset } from "@/types/customTypes";
 
 export default function Home({ 
-  imageCollection, 
-  images, 
-  videoCollection,
-  videos
+  content
 }: any) {
   const pageRef = useRef<HTMLDivElement | null>(null);
-  const [image, setImage] = useState<string | null>(null);
-  const [mime, setMime] = useState<string | undefined>(undefined);
-  const [isVideo, setIsVideo] = useState<boolean | null>(null);
+  const [visualAsset, setVisualAsset] = useState<visualAsset | null>(null);
 
   useEffect(() => {
-    console.log(image)
-  }, [image])
+    console.log(content)
+  }), [content]
 
   return (
     <div ref={(el) => (pageRef.current = el)}>
-      <HomeMenu 
-        setImage={setImage}
-        setIsVideo={setIsVideo} 
-        setMime={setMime}
-        imageCollection={imageCollection} 
-        images={images} 
-        videoCollection={videoCollection}
-        videos={videos} 
-      />
+      <HomeMenu content={content} setVisualAsset={setVisualAsset} />
       <div className={styles.contentContainer}>
-        <ImageComponent image={image} isVideo={isVideo} mime={mime} />
+        <AssetComponent visualAsset={visualAsset} />
       </div>
     </div>
   );
 }
 
 export async function getStaticProps() {
-  const imgCollectionUrl =
-    "https://17e622c9569e3fa85e0e3247f346ce6d-17523.sites.k-hosting.co.uk/cockpit-core/api/content/items/Images";
+  const visualContentUrl = `${process.env.API_ENDPOINT}/content/items/visualContent`;
 
-  const imgCollectionResponse = await fetch(imgCollectionUrl, {
-    method: "GET",
+  const fetchVisualContent = await fetch(visualContentUrl, {
+    method: 'GET',
     headers: {
       "api-key": `${process.env.API_KEY}`,
-    },
+    }
   });
 
-  const imgCollectionJson = await imgCollectionResponse.json();
+  const visualContentJson = await fetchVisualContent.json();
 
-  const imageRequestUrls = imgCollectionJson.map(
-    (asset: any) =>
-      `https://17e622c9569e3fa85e0e3247f346ce6d-17523.sites.k-hosting.co.uk/cockpit-core/api/assets/image/${asset["visual-content"]["_id"]}?m=thumbnail&h=1000&q=500&o=0`
+  // return image thumbnail promise if content is image
+  const promises = visualContentJson.map(
+    async (contentItem: { tite: string; asset: any; isVideo: boolean }) => {
+      const id = contentItem.asset["_id"];
+      const fetchUrl = `https://17e622c9569e3fa85e0e3247f346ce6d-17523.sites.k-hosting.co.uk/api/assets/image/${id}?m=thumbnail&h=1000&q=500&o=0`;
+
+      if (contentItem.asset.type === 'video') {
+        const videoUrl = `https://17e622c9569e3fa85e0e3247f346ce6d-17523.sites.k-hosting.co.uk/storage/uploads${contentItem.asset.path}`;
+        return videoUrl;
+      }
+
+      return new Promise((resolve, reject) => {
+        fetch(fetchUrl, {
+          method: "GET",
+          headers: {
+            "api-key" : `${process.env.API_KEY}`,
+          },
+        })
+          .then((response) => {
+            resolve(response.text());
+          })
+          .catch((err) => reject(err));
+      });
+    }
   );
 
-  const imageResults = imageRequestUrls.map((url: string) => {
-    return new Promise((resolve, reject) => {
-      fetch(url, {
-        method: "GET",
-        headers: {
-          "api-key": `${process.env.API_KEY}`,
-        },
-      }).then((response) => {
-        resolve(response.text());
-      }).catch((err) => 
-        reject(err));
-    });
-  });
+  const visualContentUrls = await Promise.all(promises);
 
-  const imageUrls = await Promise.all(imageResults);
-
-  const vidCollectionUrl =
-    "https://17e622c9569e3fa85e0e3247f346ce6d-17523.sites.k-hosting.co.uk/cockpit-core/api/content/items/Videos";
-
-  const vidCollectionResponse = await fetch(vidCollectionUrl, {
-    method: "GET",
-    headers: {
-      "api-key": `${process.env.API_KEY}`,
-    },
-  });
-
-  const vidCollectionJson = await vidCollectionResponse.json();
-
-  const videoUrls = vidCollectionJson.map(
-    (asset: any) =>
-      `https://17e622c9569e3fa85e0e3247f346ce6d-17523.sites.k-hosting.co.uk/cockpit-core/storage/uploads${asset["Video"].path}`
-  );
+  // add key/value for full path to json
+  visualContentJson.forEach((item: visualAsset, i: number) => item.fullPath = visualContentUrls[i]);
 
   return {
     props: {
-      imageCollection: imgCollectionJson,
-      images: imageUrls,
-      videoCollection: vidCollectionJson,
-      videos: videoUrls,
+      content: visualContentJson
     },
   };
 };

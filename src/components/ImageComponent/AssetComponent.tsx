@@ -6,14 +6,13 @@ import styles from './ImageComponent.module.scss';
 import ReactLoading from 'react-loading'
 import isImageFile from '@/services/isImageFile';
 import Video from '../Video/Video';
+import { visualAsset } from '@/types/customTypes';
 
 type Props = {
-    image: string | null;
-    isVideo: boolean | null;
-    mime: string | undefined;
+    visualAsset: visualAsset | null,
 }
 
-export default function ImageComponent({image, isVideo, mime}: Props) {
+export default function AssetComponent({visualAsset}: Props) {
     const ref = useRef<HTMLDivElement | null>();
     const [isLoading, setIsLoading] = useState(true);
 
@@ -29,9 +28,9 @@ export default function ImageComponent({image, isVideo, mime}: Props) {
             })
         }
         setIsLoading(true);
-    }, [image])
+    }, [visualAsset])
 
-    if (image === null) {
+    if (visualAsset === null) {
         return (
             <></>
         )
@@ -44,11 +43,11 @@ export default function ImageComponent({image, isVideo, mime}: Props) {
                     <ReactLoading type={'spinningBubbles'} color={'#c2c2c2'} height={50} width={50}/>
                 </div>
             }
-            {!isVideo &&
-                <Image src={image} style={{objectFit: 'contain'}} alt={'3D scene' + image} fill onLoad={() => setIsLoading(false)}/>
+            {visualAsset.asset.type === 'image' &&
+                <Image src={visualAsset.fullPath} style={{objectFit: 'contain'}} alt={'3D scene' + visualAsset} fill onLoad={() => setIsLoading(false)} />
             }
-            {isVideo &&
-                <Video image={image} mime={mime} setIsLoading={setIsLoading} />
+            {visualAsset.asset.type === 'video' &&
+                <Video visualAsset={visualAsset} setIsLoading={setIsLoading} />
             }
         </div>
     )
