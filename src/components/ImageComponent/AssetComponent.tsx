@@ -2,9 +2,8 @@ import gsap from 'gsap';
 import Image from 'next/image'
 import React, { useState, useRef } from 'react'
 import { useEffect } from 'react';
-import styles from './ImageComponent.module.scss';
+import styles from './AssetComponent.module.scss';
 import ReactLoading from 'react-loading'
-import isImageFile from '@/services/isImageFile';
 import Video from '../Video/Video';
 import { visualAsset } from '@/types/customTypes';
 
@@ -44,7 +43,7 @@ export default function AssetComponent({visualAsset}: Props) {
                 </div>
             }
             {visualAsset.asset.type === 'image' &&
-                <Image src={visualAsset.fullPath} style={{objectFit: 'contain'}} alt={'3D scene' + visualAsset} fill onLoad={() => setIsLoading(false)} />
+                <Image src={visualAsset.fullPath} style={{objectFit: 'contain'}} alt={'3D scene' + visualAsset} fill onChange={() => setIsLoading(true)} onLoad={() => setIsLoading(false)} />
             }
             {visualAsset.asset.type === 'video' &&
                 <Video visualAsset={visualAsset} setIsLoading={setIsLoading} />
