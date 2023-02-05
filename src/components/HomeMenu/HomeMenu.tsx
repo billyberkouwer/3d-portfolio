@@ -36,7 +36,7 @@ export default function HomeMenu({
           className={styles.menuItem} 
           onMouseEnter={() => {
             setVisualAsset(asset); 
-            setIsActive(i + 1)
+            setIsActive(i + 1);
           }}
         >
           <h1>

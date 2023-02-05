@@ -16,7 +16,11 @@ export default function AssetComponent({visualAsset}: Props) {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        if (ref.current) {
+        setIsLoading(true);
+    }, [visualAsset])
+
+    useEffect(() => {
+        if (!isLoading && ref.current) {
             gsap.fromTo(ref.current, {
                 opacity: 0,
                 top: (Math.random() - 0.5) * 200,
@@ -26,8 +30,7 @@ export default function AssetComponent({visualAsset}: Props) {
                 duration: 0.2,
             })
         }
-        setIsLoading(true);
-    }, [visualAsset])
+    }, [isLoading])
 
     if (visualAsset === null) {
         return (
@@ -37,16 +40,16 @@ export default function AssetComponent({visualAsset}: Props) {
 
     return (
         <div className={styles.imageContainer} ref={el => ref.current = el}>
-            {isLoading && 
-                <div style={{ position: 'absolute' }}>
-                    <ReactLoading type={'spinningBubbles'} color={'#c2c2c2'} height={50} width={50}/>
-                </div>
-            }
             {visualAsset.asset.type === 'image' &&
-                <Image src={visualAsset.fullPath} style={{objectFit: 'contain'}} alt={'3D scene' + visualAsset} fill onChange={() => setIsLoading(true)} onLoad={() => setIsLoading(false)} />
+                <Image src={visualAsset.fullPath} style={{objectFit: 'contain'}} alt={'3D scene' + visualAsset} fill onLoadingComplete={() => setIsLoading(false)} />
             }
             {visualAsset.asset.type === 'video' &&
                 <Video visualAsset={visualAsset} setIsLoading={setIsLoading} />
+            }
+            {isLoading && 
+                <div style={{ position: 'absolute', backgroundColor: '#1c1c1c', height: 'inherit', width: 'inherit', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <ReactLoading type={'spinningBubbles'} color={'#c2c2c2'} height={50} width={50}/>
+                </div>
             }
         </div>
     )

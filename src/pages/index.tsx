@@ -10,10 +10,6 @@ export default function Home({
   const pageRef = useRef<HTMLDivElement | null>(null);
   const [visualAsset, setVisualAsset] = useState<visualAsset | null>(null);
 
-  useEffect(() => {
-    console.log(content)
-  }), [content]
-
   return (
     <div ref={(el) => (pageRef.current = el)}>
       <HomeMenu content={content} setVisualAsset={setVisualAsset} />
