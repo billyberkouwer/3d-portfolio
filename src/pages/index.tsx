@@ -14,9 +14,6 @@ export default function Home({
   const [mime, setMime] = useState<string | undefined>(undefined);
   const [isVideo, setIsVideo] = useState<boolean | null>(null);
 
-  useEffect(() => {
-    console.log(image)
-  }, [image])
 
   return (
     <div ref={(el) => (pageRef.current = el)}>

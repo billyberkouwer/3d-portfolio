@@ -21,9 +21,10 @@ export default function HomeMenu({
   images, 
   videos
 }: Props) {
+  
   const [isActive, setIsActive] = useState<object>({image: undefined, video: undefined});
-  const imageRef = useRef<Array<HTMLDivElement>>([])
-  const videoRef = useRef<Array<HTMLDivElement>>([])
+  const imageRef = useRef<Array<HTMLDivElement>>([]);
+  const videoRef = useRef<Array<HTMLDivElement>>([]);
 
   useEffect(() => {
     if (isActive && imageCollection && images.length) {
