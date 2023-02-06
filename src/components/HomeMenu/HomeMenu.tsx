@@ -52,7 +52,12 @@ export default function HomeMenu({
   }, [touchTarget]);
 
   return (
-    <div className={styles.menuContainer} onTouchMove={e => {setTouchTarget({x: e.targetTouches[0].clientX, y: e.targetTouches[0].clientY})}}>
+    <div className={styles.menuContainer} onTouchMove={e => {
+      setTouchTarget({
+        x: e.targetTouches[0].clientX, 
+        y: e.targetTouches[0].clientY
+      })}
+    }>
       {content.map((asset: any, i: any) => (
         <div 
           ref={el => el !== null && assetRef.current.splice (i, 1, el)} 
