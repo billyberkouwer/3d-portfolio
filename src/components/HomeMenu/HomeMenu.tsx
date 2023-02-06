@@ -13,7 +13,17 @@ export default function HomeMenu({
   content,
 }: Props) {
   const [isActive, setIsActive] = useState<number | undefined>(undefined);
-  const assetRef = useRef<Array<HTMLDivElement>>([])
+  const assetRef = useRef<Array<HTMLDivElement>>([]);
+  const menuItemPos = useRef<Array<DOMRect>>([]);
+  const [touchTarget, setTouchTarget] = useState<any>({x: null, y: null});
+
+  useEffect(() => {
+    if (!menuItemPos.current.length) {
+      assetRef.current.map((el, i) => {
+        menuItemPos.current.push(el.getBoundingClientRect());
+      })
+    }
+  }, [])
 
   useEffect(() => {
     if (isActive) {
@@ -27,8 +37,23 @@ export default function HomeMenu({
     };
   }, [isActive]);
 
+  useEffect(() => {
+    menuItemPos.current.forEach((el, i) => {
+      if (touchTarget.x >= el.left && touchTarget.x <= el.right) {
+        if (touchTarget.y >= el.top && touchTarget.x <= el.bottom) {
+          setIsActive(i + 1);
+          setVisualAsset(content[i]); 
+        }
+      }
+    })
+  }, [touchTarget])
+
+  useEffect(() => {
+    console.log(menuItemPos.current)
+  }, [])
+
   return (
-    <div className={styles.menuContainer}>
+    <div className={styles.menuContainer} onTouchMove={e => {setTouchTarget({x: e.targetTouches[0].clientX, y: e.targetTouches[0].clientY})}}>
       {content.map((asset: any, i: any) => (
         <div 
           ref={el => el !== null && assetRef.current.splice (i, 1, el)} 
