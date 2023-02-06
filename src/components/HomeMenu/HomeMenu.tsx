@@ -17,14 +17,7 @@ export default function HomeMenu({
   const menuItemPos = useRef<Array<DOMRect>>([]);
   const [touchTarget, setTouchTarget] = useState<any>({x: null, y: null});
 
-  useEffect(() => {
-    if (!menuItemPos.current.length) {
-      assetRef.current.map((el, i) => {
-        menuItemPos.current.push(el.getBoundingClientRect());
-      })
-    }
-  }, [])
-
+  // highlight the menu item that is currently active
   useEffect(() => {
     if (isActive) {
       assetRef.current.forEach((el, i) => {
@@ -37,6 +30,16 @@ export default function HomeMenu({
     };
   }, [isActive]);
 
+  // get the position of the menu items
+  useEffect(() => {
+    if (!menuItemPos.current.length) {
+      assetRef.current.map((el, i) => {
+        menuItemPos.current.push(el.getBoundingClientRect());
+      })
+    }
+  }, [])
+
+  // set active item and asset if user is touching the specified menu item
   useEffect(() => {
     menuItemPos.current.forEach((el, i) => {
       if (touchTarget.x >= el.left && touchTarget.x <= el.right) {
@@ -46,11 +49,7 @@ export default function HomeMenu({
         }
       }
     })
-  }, [touchTarget])
-
-  useEffect(() => {
-    console.log(menuItemPos.current)
-  }, [])
+  }, [touchTarget]);
 
   return (
     <div className={styles.menuContainer} onTouchMove={e => {setTouchTarget({x: e.targetTouches[0].clientX, y: e.targetTouches[0].clientY})}}>
