@@ -11,6 +11,7 @@ export default function Video({visualAsset, setIsLoading}: Props) {
     return (
         <video 
         key={Math.random()} 
+        preload="metadata"
         muted 
         autoPlay 
         playsInline 
@@ -18,7 +19,7 @@ export default function Video({visualAsset, setIsLoading}: Props) {
         style={{pointerEvents: 'none', width: 'inherit', height: 'inherit'}} 
         onCanPlay={() => setIsLoading(false)}
         >
-            <source src={visualAsset.fullPath} type={visualAsset.asset.mime} />
+            <source src={visualAsset.fullPath + '#t=0.5'} type={visualAsset.asset.mime} />
         </video>
     )
 }
