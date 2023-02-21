@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import AssetComponent from "@/components/ImageComponent/AssetComponent";
 import styles from "../styles/index.module.scss";
 import { visualAsset } from "@/types/customTypes";
+import Head from "next/head";
 
 export default function Home({ 
   content
@@ -11,12 +12,21 @@ export default function Home({
   const [visualAsset, setVisualAsset] = useState<visualAsset | null>(null);
 
   return (
-    <div ref={(el) => (pageRef.current = el)}>
-      <HomeMenu content={content} setVisualAsset={setVisualAsset} />
-      <div className={styles.contentContainer}>
-        <AssetComponent visualAsset={visualAsset} />
+    <>
+      <Head>
+        <title>3D | Billy Myles-Berkouwer</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta property="og:title" content='3D | Billy Myles-Berkouwer'/>
+        <link rel='canonical' href='https://3d.billyberkouwer.dev/' key='canonical' />
+        <meta name="description" content="Billy Myles-Berkouwer is a web developer and visual artist. See his 3D portfolio here." />
+      </Head>
+      <div ref={(el) => (pageRef.current = el)}>
+        <HomeMenu content={content} setVisualAsset={setVisualAsset} />
+        <div className={styles.contentContainer}>
+          <AssetComponent visualAsset={visualAsset} />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
